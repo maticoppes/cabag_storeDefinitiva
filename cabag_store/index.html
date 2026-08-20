@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ca & Bag. | Productos artesanales hechos con amor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/variables.css">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/components.css">
+<link rel="stylesheet" href="assets/css/public.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="#inicio" class="logo">
+      <span class="logo-badge">CA</span>
+      <span class="logo-text">Ca &amp; Bag.</span>
+    </a>
+    <nav class="main-nav">
+      <a href="#inicio">Inicio</a>
+      <a href="#catalogo" class="is-active">Productos</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <a href="https://wa.me/5490000000000" target="_blank" class="btn btn-whatsapp">
+      <svg viewBox="0 0 24 24" class="icon-wa" aria-hidden="true"><path fill="currentColor" d="M17.6 6.32A8.86 8.86 0 0 0 3.1 16.75L2 21l4.36-1.14a8.85 8.85 0 0 0 4.24 1.08h.01a8.86 8.86 0 0 0 6.99-14.62Zm-6.99 13.6h-.01a7.35 7.35 0 0 1-3.75-1.03l-.27-.16-2.59.68.69-2.53-.18-.26a7.36 7.36 0 1 1 6.11 3.3Zm4.04-5.5c-.22-.11-1.31-.65-1.51-.72-.2-.07-.35-.11-.5.11-.15.22-.57.72-.7.87-.13.15-.26.16-.48.05-.22-.11-.94-.35-1.79-1.1a6.7 6.7 0 0 1-1.24-1.54c-.13-.22-.01-.34.1-.45.1-.1.22-.26.33-.39.11-.13.15-.22.22-.37.07-.15.04-.28-.02-.39-.07-.11-.5-1.2-.68-1.64-.18-.43-.36-.37-.5-.38h-.42c-.15 0-.39.05-.59.28-.2.22-.77.75-.77 1.83s.79 2.13.9 2.28c.11.15 1.55 2.37 3.76 3.32.53.23.94.36 1.26.47.53.17 1 .14 1.38.09.42-.06 1.31-.53 1.49-1.05.19-.51.19-.95.13-1.05-.06-.09-.2-.15-.42-.26Z"/></svg>
+      WhatsApp
+    </a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section id="inicio" class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="container hero-inner">
+    <p class="eyebrow eyebrow-light">Hecho a mano con amor</p>
+    <h1 class="hero-title">Productos<br>artesanales<br><em>hechos con amor.</em></h1>
+    <p class="hero-desc">Bolsos, materas, cartucheras y accesorios confeccionados a mano con telas de excelente calidad.</p>
+    <a href="#catalogo" class="btn btn-primary">Ver Catálogo <span class="arrow">→</span></a>
+  </div>
+  <a href="#catalogo" class="scroll-hint">Explorar</a>
+</section>
+
+<!-- CATÁLOGO -->
+<section id="catalogo" class="catalog">
+  <div class="container">
+    <div class="section-heading">
+      <p class="eyebrow">Nuestro catálogo</p>
+      <h2>Piezas únicas para ti</h2>
+      <span class="heading-underline"></span>
+    </div>
+
+    <div class="search-wrap">
+      <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M10 2a8 8 0 1 0 4.9 14.32l4.89 4.89 1.41-1.41-4.89-4.89A8 8 0 0 0 10 2Zm0 2a6 6 0 1 1 0 12 6 6 0 0 1 0-12Z"/></svg>
+      <input type="text" id="searchInput" placeholder="Buscar productos...">
+    </div>
+
+    <div class="filters" id="filters">
+      <button class="filter-btn active" data-filter="Todos">Todos</button>
+      <button class="filter-btn" data-filter="Bolsos">Bolsos</button>
+      <button class="filter-btn" data-filter="Materas">Materas</button>
+      <button class="filter-btn" data-filter="Cartucheras">Cartucheras</button>
+      <button class="filter-btn" data-filter="Neceseres">Neceseres</button>
+      <button class="filter-btn" data-filter="Accesorios">Accesorios</button>
+    </div>
+
+    <!-- El grid de productos se completa en el módulo del catálogo dinámico -->
+    <div class="product-grid" id="productGrid"></div>
+
+    <p class="no-results" id="noResults" hidden>No encontramos productos que coincidan con tu búsqueda.</p>
+  </div>
+</section>
+
+<!-- POR QUÉ ELEGIRNOS -->
+<section class="why">
+  <div class="container">
+    <div class="section-heading">
+      <p class="eyebrow">Nuestra promesa</p>
+      <h2>¿Por qué elegirnos?</h2>
+      <span class="heading-underline"></span>
+    </div>
+
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.6" d="M7 11V6.5a1.5 1.5 0 0 1 3 0V11m0-1.5V4.5a1.5 1.5 0 0 1 3 0V11m0-1V6.5a1.5 1.5 0 0 1 3 0V13m3-2v3a6 6 0 0 1-6 6H9.5a5 5 0 0 1-4.2-2.3L3 12.8c-.5-.8-.2-1.7.6-2.1.7-.4 1.6-.1 2 .5L7 13"/></svg>
+        </div>
+        <h3>Hecho a mano</h3>
+        <p>Cada pieza es confeccionada artesanalmente, con dedicación y cuidado en cada costura y detalle.</p>
+      </div>
+
+      <div class="why-card">
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" d="m12 3 2.6 5.6L21 9.4l-4.5 4.2 1.2 6.2L12 16.9l-5.7 2.9 1.2-6.2L3 9.4l6.4-.8Z"/></svg>
+        </div>
+        <h3>Materiales de calidad</h3>
+        <p>Seleccionamos telas de primera calidad — lino, algodón y lona gruesa — para garantizar durabilidad y belleza.</p>
+      </div>
+
+      <div class="why-card">
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.6" d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm-7 9a7 7 0 0 1 14 0"/></svg>
+        </div>
+        <h3>Atención personalizada</h3>
+        <p>Te acompañamos en cada paso: colores, medidas y diseños especiales. Tu visión, nuestra confección.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section id="contacto" class="contact">
+  <div class="container">
+    <p class="eyebrow">Estamos aquí</p>
+    <h2>Hablemos hoy</h2>
+    <p class="contact-desc">¿Tienes una idea en mente? Contáctanos por WhatsApp y creamos algo único para ti.</p>
+    <a href="https://wa.me/5490000000000" target="_blank" class="btn btn-whatsapp btn-lg">
+      <svg viewBox="0 0 24 24" class="icon-wa" aria-hidden="true"><path fill="currentColor" d="M17.6 6.32A8.86 8.86 0 0 0 3.1 16.75L2 21l4.36-1.14a8.85 8.85 0 0 0 4.24 1.08h.01a8.86 8.86 0 0 0 6.99-14.62Zm-6.99 13.6h-.01a7.35 7.35 0 0 1-3.75-1.03l-.27-.16-2.59.68.69-2.53-.18-.26a7.36 7.36 0 1 1 6.11 3.3Zm4.04-5.5c-.22-.11-1.31-.65-1.51-.72-.2-.07-.35-.11-.5.11-.15.22-.57.72-.7.87-.13.15-.26.16-.48.05-.22-.11-.94-.35-1.79-1.1a6.7 6.7 0 0 1-1.24-1.54c-.13-.22-.01-.34.1-.45.1-.1.22-.26.33-.39.11-.13.15-.22.22-.37.07-.15.04-.28-.02-.39-.07-.11-.5-1.2-.68-1.64-.18-.43-.36-.37-.5-.38h-.42c-.15 0-.39.05-.59.28-.2.22-.77.75-.77 1.83s.79 2.13.9 2.28c.11.15 1.55 2.37 3.76 3.32.53.23.94.36 1.26.47.53.17 1 .14 1.38.09.42-.06 1.31-.53 1.49-1.05.19-.51.19-.95.13-1.05-.06-.09-.2-.15-.42-.26Z"/></svg>
+      Escribirnos por WhatsApp
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <a href="#inicio" class="logo">
+      <span class="logo-badge">CA</span>
+      <span class="logo-text">Ca &amp; Bag.</span>
+    </a>
+    <p>© 2026 Ca &amp; Bag. — Hecho a mano con amor.</p>
+  </div>
+</footer>
+
+<!-- Botón flotante de WhatsApp -->
+<a href="https://wa.me/5490000000000" target="_blank" class="float-btn float-wa" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M17.6 6.32A8.86 8.86 0 0 0 3.1 16.75L2 21l4.36-1.14a8.85 8.85 0 0 0 4.24 1.08h.01a8.86 8.86 0 0 0 6.99-14.62Zm-6.99 13.6h-.01a7.35 7.35 0 0 1-3.75-1.03l-.27-.16-2.59.68.69-2.53-.18-.26a7.36 7.36 0 1 1 6.11 3.3Zm4.04-5.5c-.22-.11-1.31-.65-1.51-.72-.2-.07-.35-.11-.5.11-.15.22-.57.72-.7.87-.13.15-.26.16-.48.05-.22-.11-.94-.35-1.79-1.1a6.7 6.7 0 0 1-1.24-1.54c-.13-.22-.01-.34.1-.45.1-.1.22-.26.33-.39.11-.13.15-.22.22-.37.07-.15.04-.28-.02-.39-.07-.11-.5-1.2-.68-1.64-.18-.43-.36-.37-.5-.38h-.42c-.15 0-.39.05-.59.28-.2.22-.77.75-.77 1.83s.79 2.13.9 2.28c.11.15 1.55 2.37 3.76 3.32.53.23.94.36 1.26.47.53.17 1 .14 1.38.09.42-.06 1.31-.53 1.49-1.05.19-.51.19-.95.13-1.05-.06-.09-.2-.15-.42-.26Z"/></svg>
+</a>
+
+<script type="module" src="assets/js/public/catalog.js"></script>
+</body>
+</html>

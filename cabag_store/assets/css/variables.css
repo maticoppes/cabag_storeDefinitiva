@@ -1,0 +1,20 @@
+:root{
+  --cream: #f7f2ea;
+  --cream-soft: #fbf8f3;
+  --sand: #e9e1d3;
+  --terracotta: #c17a54;
+  --terracotta-dark: #a8623f;
+  --dark: #2b2118;
+  --brown-text: #7a6a58;
+  --teal: #5f8577;
+  --whatsapp: #25d366;
+  --whatsapp-dark: #1ebe5b;
+  --danger: #c1543f;
+  --danger-dark: #a4402f;
+  --success: #4c8c5b;
+  --radius-lg: 24px;
+  --radius-md: 16px;
+  --radius-sm: 10px;
+  --radius-pill: 999px;
+  font-size: 16px;
+}

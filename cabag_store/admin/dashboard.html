@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard | Admin Ca & Bag.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/variables.css">
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="../assets/css/components.css">
+<link rel="stylesheet" href="../assets/css/admin.css">
+</head>
+<body class="admin-body">
+
+<!-- TOPBAR -->
+<header class="admin-topbar">
+  <div class="container admin-topbar-inner">
+    <a href="../index.html" class="logo">
+      <span class="logo-badge">CA</span>
+      <span class="logo-text">Ca &amp; Bag. <span style="font-weight:400; opacity:.6;">Admin</span></span>
+    </a>
+    <div class="admin-topbar-right">
+      <span class="admin-user">Hola, <strong id="adminUserName">admin</strong></span>
+      <a href="../index.html" class="btn btn-secondary btn-sm">Ver sitio</a>
+      <button type="button" class="btn btn-secondary btn-sm" id="logoutBtn">Salir</button>
+    </div>
+  </div>
+</header>
+
+<main class="admin-main">
+  <div class="container">
+
+    <div class="admin-header">
+      <div>
+        <h1>Productos</h1>
+        <p>Gestioná el catálogo que ven tus clientes.</p>
+      </div>
+      <button type="button" class="btn btn-primary" id="btnNewProduct">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg>
+        Agregar producto
+      </button>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <p class="stat-value" id="statTotal">0</p>
+        <p class="stat-label">Productos totales</p>
+      </div>
+      <div class="stat-card">
+        <p class="stat-value" id="statDisponibles">0</p>
+        <p class="stat-label">Disponibles</p>
+      </div>
+      <div class="stat-card">
+        <p class="stat-value" id="statAgotados">0</p>
+        <p class="stat-label">Agotados</p>
+      </div>
+      <div class="stat-card">
+        <p class="stat-value" id="statCategorias">0</p>
+        <p class="stat-label">Categorías en uso</p>
+      </div>
+    </div>
+
+    <!-- TOOLBAR -->
+    <div class="admin-toolbar">
+      <div class="search-wrap">
+        <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M10 2a8 8 0 1 0 4.9 14.32l4.89 4.89 1.41-1.41-4.89-4.89A8 8 0 0 0 10 2Zm0 2a6 6 0 1 1 0 12 6 6 0 0 1 0-12Z"/></svg>
+        <input type="text" id="searchInput" placeholder="Buscar productos...">
+      </div>
+      <select id="categoryFilter">
+        <option value="Todos">Todas las categorías</option>
+      </select>
+      <select id="statusFilter">
+        <option value="Todos">Todos los estados</option>
+        <option value="disponible">Disponibles</option>
+        <option value="agotado">Agotados</option>
+      </select>
+    </div>
+
+    <!-- TABLA -->
+    <div class="admin-table-wrap">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Categoría</th>
+            <th>Precio</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="productsTableBody"></tbody>
+      </table>
+      <p class="admin-empty" id="emptyState" hidden>No hay productos que coincidan con la búsqueda.</p>
+    </div>
+
+  </div>
+</main>
+
+<!-- MODAL: CREAR / EDITAR PRODUCTO -->
+<div class="modal-overlay" id="productModal" hidden>
+  <div class="modal-panel">
+    <div class="modal-header">
+      <h2 id="modalTitle">Agregar producto</h2>
+      <button type="button" class="modal-close" id="modalClose" aria-label="Cerrar">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+
+    <div class="form-error-banner" id="productFormError"></div>
+
+    <form id="productForm" novalidate>
+      <input type="hidden" id="productId">
+
+      <div class="field" id="fieldNombre">
+        <label for="nombre">Nombre del producto</label>
+        <input type="text" id="nombre" placeholder="Ej: Bolso Tote Lino Natural">
+        <p class="field-error">El nombre es obligatorio.</p>
+      </div>
+
+      <div class="form-row">
+        <div class="field" id="fieldCategoria">
+          <label for="categoria">Categoría</label>
+          <select id="categoria">
+            <option value="">Elegí una categoría</option>
+          </select>
+          <p class="field-error">Elegí una categoría.</p>
+        </div>
+        <div class="field" id="fieldPrecio">
+          <label for="precio">Precio ($)</label>
+          <input type="number" id="precio" min="0" step="1" placeholder="0">
+          <p class="field-error">Ingresá un precio válido.</p>
+        </div>
+      </div>
+
+      <div class="field" id="fieldDescripcion">
+        <label for="descripcion">Descripción</label>
+        <textarea id="descripcion" placeholder="Contale a tus clientes sobre este producto..."></textarea>
+      </div>
+
+      <div class="form-check">
+        <label class="switch">
+          <input type="checkbox" id="disponible" checked>
+          <span class="switch-track"></span>
+        </label>
+        <label for="disponible">Producto disponible</label>
+      </div>
+
+      <div class="field image-manager" id="fieldImagenes">
+        <label>Imágenes del producto</label>
+        <label class="image-upload-btn">
+          Hacé clic para subir una o varias imágenes
+          <input type="file" id="imageInput" accept="image/*" multiple>
+        </label>
+        <div class="image-list" id="imageList"></div>
+        <p class="field-error">Agregá al menos una imagen.</p>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" id="modalCancel">Cancelar</button>
+        <button type="submit" class="btn btn-primary" id="productSubmit">Guardar producto</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- CONFIRMACIÓN DE ELIMINACIÓN -->
+<div class="modal-overlay" id="deleteModal" hidden>
+  <div class="modal-panel" style="max-width: 420px;">
+    <div class="modal-header">
+      <h2>Eliminar producto</h2>
+      <button type="button" class="modal-close" id="deleteModalClose" aria-label="Cerrar">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <p style="color: var(--brown-text); font-size: .92rem;">
+      ¿Seguro que querés eliminar <strong id="deleteProductName"></strong>? Esta acción no se puede deshacer.
+    </p>
+    <div class="modal-actions">
+      <button type="button" class="btn btn-secondary" id="deleteCancel">Cancelar</button>
+      <button type="button" class="btn btn-danger" id="deleteConfirm">Sí, eliminar</button>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="../assets/js/admin/dashboard.js"></script>
+</body>
+</html>

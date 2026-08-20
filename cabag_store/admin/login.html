@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ingresar | Admin Ca & Bag.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/variables.css">
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="../assets/css/admin.css">
+</head>
+<body class="admin-body">
+
+<div class="login-screen">
+  <div class="login-card">
+    <a href="../index.html" class="logo">
+      <span class="logo-badge">CA</span>
+      <span class="logo-text">Ca &amp; Bag.</span>
+    </a>
+    <h1 class="login-title">Panel de administración</h1>
+    <p class="login-subtitle">Ingresá tus credenciales para continuar</p>
+
+    <div class="form-error-banner" id="formError"></div>
+
+    <form id="loginForm" novalidate>
+      <div class="field" id="fieldUsuario">
+        <label for="usuario">Usuario</label>
+        <input type="text" id="usuario" name="usuario" autocomplete="username" placeholder="admin">
+        <p class="field-error">Ingresá tu usuario.</p>
+      </div>
+      <div class="field" id="fieldClave">
+        <label for="clave">Contraseña</label>
+        <input type="password" id="clave" name="clave" autocomplete="current-password" placeholder="••••••••">
+        <p class="field-error">Ingresá tu contraseña.</p>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block" id="loginSubmit">Ingresar</button>
+    </form>
+
+    <a href="../index.html" class="login-back">← Volver al sitio</a>
+  </div>
+</div>
+
+<script type="module" src="../assets/js/admin/login.js"></script>
+</body>
+</html>
