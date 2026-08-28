@@ -12,8 +12,7 @@ import { formatPrice } from "../utils/format.js";
 import { qs, qsa, escapeHtml, debounce, toast } from "../utils/dom.js";
 import { initProductForm } from "./product-form.js";
 
-// Protege la ruta: sin sesión activa, redirige al login.
-AuthService.guard({ redirectTo: "login.html" });
+
 
 const ICON_EDIT = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>`;
 const ICON_DELETE = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>`;
@@ -47,9 +46,8 @@ let allProducts = [];
 let pendingDeleteId = null;
 
 // ---- Sesión ----
-els.userName.textContent = AuthService.currentUser() || "admin";
-els.logoutBtn.addEventListener("click", () => {
-  AuthService.logout();
+els.logoutBtn.addEventListener("click", async () => {
+  await AuthService.logout();
   window.location.href = "login.html";
 });
 
@@ -205,6 +203,10 @@ els.categoryFilter.addEventListener("change", renderTable);
 els.statusFilter.addEventListener("change", renderTable);
 
 async function init() {
+  const isAuth = await AuthService.guard({ redirectTo: "login.html" });
+  if (!isAuth) return;
+
+  els.userName.textContent = (await AuthService.currentUser()) || "admin";
   populateCategoryFilter();
   await ProductService.ensureSeeded();
   await refresh();

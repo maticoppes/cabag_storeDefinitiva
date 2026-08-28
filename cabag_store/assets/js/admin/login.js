@@ -34,7 +34,7 @@ function validate() {
 }
 
 // Si ya hay sesión activa, saltear directo al dashboard
-if (AuthService.isAuthenticated()) {
+if (await AuthService.isAuthenticated()) {
   window.location.href = "dashboard.html";
 }
 

@@ -1,6 +1,6 @@
 // ============================================================
 // MODELO — Producto
-//
+///
 // Esta es la "forma" oficial de un producto en toda la app.
 // Tanto el catálogo público como el admin y los servicios
 // dependen de esta forma, NO de cómo se guardan los datos.
