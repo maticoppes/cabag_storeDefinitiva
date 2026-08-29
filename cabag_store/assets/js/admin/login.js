@@ -33,11 +33,6 @@ function validate() {
   return Object.keys(errors).length === 0;
 }
 
-// Si ya hay sesión activa, saltear directo al dashboard
-if (await AuthService.isAuthenticated()) {
-  window.location.href = "dashboard.html";
-}
-
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
   showFormError("");
@@ -58,3 +53,12 @@ form.addEventListener("submit", async (e) => {
   submitBtn.disabled = false;
   submitBtn.textContent = "Ingresar";
 });
+
+// Si ya hay sesión activa, saltear directo al dashboard
+async function init() {
+  if (await AuthService.isAuthenticated()) {
+    window.location.href = "dashboard.html";
+  }
+}
+
+init();
