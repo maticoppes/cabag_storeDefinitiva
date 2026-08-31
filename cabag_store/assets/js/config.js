@@ -5,7 +5,7 @@
 // ============================================================
 
 export const CONFIG = {
-  WHATSAPP_NUMBER: "5490000000000",
+  WHATSAPP_NUMBER: "+543447467921",
   STORAGE_PREFIX: "cabag_store",
   CATEGORIES: ["Bolsos", "Materas", "Cartucheras", "Neceseres", "Accesorios"],
   ADMIN_SESSION_MINUTES: 60,

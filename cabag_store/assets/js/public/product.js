@@ -9,7 +9,8 @@
 import { ProductService } from "../services/ProductService.js";
 import { productCardHtml, buildWhatsappLink } from "../components/productCard.js";
 import { formatPrice } from "../utils/format.js";
-import { qs, getQueryParam } from "../utils/dom.js";
+import { qs, qsa, getQueryParam } from "../utils/dom.js";
+import { CONFIG } from "../config.js";
 
 const els = {
   detail: qs("#productDetail"),
@@ -171,8 +172,19 @@ function showError(message) {
   els.error.hidden = false;
 }
 
+// ---- WhatsApp links ----
+function initWhatsappLinks() {
+  const waUrl = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}`;
+  qsa(".btn-whatsapp, .float-wa").forEach((el) => {
+    if (el.id !== "productWhatsapp") {
+      el.href = waUrl;
+    }
+  });
+}
+
 // ---- Init ----
 async function init() {
+  initWhatsappLinks();
   await ProductService.ensureSeeded();
 
   const id = getQueryParam("id");
