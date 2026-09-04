@@ -172,7 +172,7 @@ function showError(message) {
   els.error.hidden = false;
 }
 
-// ---- WhatsApp links ----
+// ---- WhatsApp & Instagram links ----
 function initWhatsappLinks() {
   const waUrl = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}`;
   qsa(".btn-whatsapp, .float-wa").forEach((el) => {
@@ -182,9 +182,18 @@ function initWhatsappLinks() {
   });
 }
 
+function initInstagramLinks() {
+  const igUrl = CONFIG.INSTAGRAM_URL;
+  if (!igUrl) return;
+  qsa(".btn-instagram, .footer-ig").forEach((el) => {
+    el.href = igUrl;
+  });
+}
+
 // ---- Init ----
 async function init() {
   initWhatsappLinks();
+  initInstagramLinks();
   await ProductService.ensureSeeded();
 
   const id = getQueryParam("id");

@@ -38,6 +38,7 @@ body.admin-body{ background: var(--sand); }
 .field{ margin-bottom: 18px; }
 .field label{ display: block; font-size: .85rem; font-weight: 600; margin-bottom: 6px; }
 .field input[type="text"],
+.field input[type="email"],
 .field input[type="password"],
 .field input[type="number"],
 .field select,

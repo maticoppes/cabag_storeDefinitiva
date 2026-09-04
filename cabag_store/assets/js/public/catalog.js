@@ -25,6 +25,14 @@ function initWhatsappLinks() {
   });
 }
 
+function initInstagramLinks() {
+  const igUrl = CONFIG.INSTAGRAM_URL;
+  if (!igUrl) return;
+  qsa(".btn-instagram, .footer-ig").forEach((el) => {
+    el.href = igUrl;
+  });
+}
+
 async function render() {
   const filters = { categoria: activeFilter, search: searchInput.value };
   const products = await ProductService.getAll(filters);
@@ -50,6 +58,7 @@ function initSearch() {
 
 async function init() {
   initWhatsappLinks();
+  initInstagramLinks();
   grid.innerHTML = skeletonCardsHtml(8);
   initFilters();
   initSearch();
