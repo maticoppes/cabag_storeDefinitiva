@@ -8,12 +8,12 @@
 import { ProductService } from "../services/ProductService.js";
 import { productCardHtml } from "../components/productCard.js";
 import { skeletonCardsHtml } from "../components/skeleton.js";
-import { qs, qsa, debounce } from "../utils/dom.js";
+import { qs, qsa, debounce, escapeHtml } from "../utils/dom.js";
 import { CONFIG } from "../config.js";
 
 const grid = qs("#productGrid");
 const searchInput = qs("#searchInput");
-const filterButtons = qsa(".filter-btn");
+const filtersContainer = qs("#filters");
 const noResults = qs("#noResults");
 
 let activeFilter = "Todos";
@@ -42,6 +42,14 @@ async function render() {
 }
 
 function initFilters() {
+  if (filtersContainer) {
+    const categoryButtons = CONFIG.CATEGORIES.map(
+      (cat) => `<button class="filter-btn" data-filter="${escapeHtml(cat)}">${escapeHtml(cat)}</button>`
+    ).join("");
+    filtersContainer.innerHTML = `<button class="filter-btn active" data-filter="Todos">Todos</button>${categoryButtons}`;
+  }
+
+  const filterButtons = qsa(".filter-btn", filtersContainer);
   filterButtons.forEach((btn) => {
     btn.addEventListener("click", () => {
       filterButtons.forEach((b) => b.classList.remove("active"));

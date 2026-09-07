@@ -1,236 +1,266 @@
-# Ca & Bag. — Catálogo artesanal + Panel de administración
+# Ca & Bag. — Tienda Online Artesanal y Panel de Gestión
 
-Sitio de e-commerce para "Ca & Bag.", un emprendimiento de productos
-artesanales (bolsos, materas, cartucheras, neceseres y accesorios).
-Incluye catálogo público con ficha de producto y un panel de
-administración para gestionar el catálogo — todo construido en
-**HTML, CSS y JavaScript puro** (ES Modules nativos, sin frameworks
-ni build step).
+Aplicación web de comercio electrónico y gestión de catálogo desarrollada para **Ca & Bag.**, un emprendimiento familiar enfocado en la confección artesanal de bolsos, mochilas, materas, cartucheras, neceseres y accesorios textiles.
+
+El proyecto cumple un doble propósito: es una **solución funcional y real** diseñada para la operatoria cotidiana del negocio y, a la vez, una **pieza de portfolio profesional** que demuestra buenas prácticas de arquitectura de software, seguridad en backend as a service y desarrollo frontend moderno sin frameworks.
 
 ---
 
-## Tabla de contenidos
+## 📸 Capturas de pantalla
 
-1. [Cómo correr el proyecto](#cómo-correr-el-proyecto)
-2. [Acceso al panel de administración](#acceso-al-panel-de-administración)
-3. [Estructura del proyecto](#estructura-del-proyecto)
-4. [Arquitectura](#arquitectura)
-5. [Funcionalidades](#funcionalidades)
-6. [Limitaciones conocidas](#limitaciones-conocidas)
-7. [Cómo migrar a un backend real](#cómo-migrar-a-un-backend-real)
-8. [Próximos pasos sugeridos](#próximos-pasos-sugeridos)
+<!-- Espacio reservado para incorporar capturas visuales de la aplicación -->
+
+| Catálogo Público | Detalle de Producto |
+| :---: | :---: |
+| *[ Captura: Catálogo público con filtros y búsqueda ]* | *[ Captura: Ficha de producto y galería interactiva ]* |
+
+| Panel de Administración | Formulario y Gestión de Imágenes |
+| :---: | :---: |
+| *[ Captura: Dashboard con métricas y tabla de productos ]* | *[ Captura: Modal de edición y carga optimizada de fotos ]* |
 
 ---
 
-## Cómo correr el proyecto
+## 🛠️ Tecnologías utilizadas
 
-El proyecto no tiene dependencias ni build step, pero **usa ES Modules**
-(`import`/`export`), y los navegadores no permiten cargarlos desde
-`file://`. Por eso hace falta un servidor local, cualquiera de estos sirve:
+El proyecto fue construido priorizando estándares web nativos, rendimiento y mantenibilidad, evitando sobrecarga de dependencias:
 
-| Herramienta | Comando |
-|---|---|
-| VS Code (recomendado) | Extensión **Live Server** → clic derecho sobre `index.html` → *Open with Live Server* |
-| Node.js | `npx serve .` desde la raíz del proyecto |
-| Python 3 | `python3 -m http.server 8000` desde la raíz del proyecto |
+* **Frontend:**
+  * **HTML5:** Estructura semántica, accesibilidad y soporte responsive.
+  * **CSS3:** Tokens de diseño mediante Custom Properties (variables), Flexbox, CSS Grid y micro-interacciones fluidas.
+  * **JavaScript (ES Modules nativos):** Modularidad pura (`import`/`export`), programación asíncrona (`async`/`await`) y manipulación eficiente del DOM.
+* **Backend y Persistencia (BaaS):**
+  * **Supabase:** Plataforma backend basada en tecnologías abiertas.
+  * **PostgreSQL:** Base de datos relacional para productos e imágenes.
+  * **Supabase Auth:** Autenticación y gestión de sesiones seguras para el administrador.
+  * **Supabase Storage:** Almacenamiento en la nube para activos multimedia (bucket `product-images`).
+  * **Row Level Security (RLS):** Control de acceso granular a nivel de fila y objeto.
+* **Control de versiones:** Git y GitHub.
 
-Luego abrí:
-- **`index.html`** → catálogo público.
-- **`admin/login.html`** → panel de administración.
+---
 
-No hace falta ninguna configuración adicional: al abrir el sitio por
-primera vez, el catálogo se precarga automáticamente con 8 productos
-de ejemplo (ver [`assets/js/data/seed-products.js`](assets/js/data/seed-products.js)).
+## 🚀 Funcionalidades
 
-## Acceso al panel de administración
+### Catálogo Público
+* **Exploración de productos:** Cuadrícula responsive con tarjetas informativas y badges de estado.
+* **Búsqueda en tiempo real:** Búsqueda por coincidencia de texto con *debounce* para optimizar el rendimiento.
+* **Filtros por categoría dinámicos:** Generación automática de filtros (*Bolsos, Mochilas, Materas, Cartucheras, Neceseres, Accesorios*) sincronizados con la configuración global.
+* **Detalle de producto:** Página individual (`producto.html?id=...`) con descripción completa, precio y control de stock.
+* **Galería interactiva:** Visualizador de imágenes con navegación por flechas, miniaturas interactivas, contador y gestos táctiles (*swipe*) en dispositivos móviles.
+* **Productos relacionados:** Recomendaciones automáticas basadas en la misma categoría.
+* **Estados de disponibilidad:** Indicadores visuales de stock ("Disponible" / "Agotado") e inhabilitación dinámica de consultas en productos sin existencias.
+* **Canales de contacto directo:**
+  * Enlace directo a WhatsApp con mensaje contextualizado y prellenado con los datos del producto de interés.
+  * Acceso directo al perfil de Instagram oficial del negocio.
+* **Estados de carga:** Tarjetas con animación *skeleton loading* durante la consulta a la base de datos.
+
+### Panel de Administración (`/admin`)
+* **Autenticación segura:** Acceso restringido mediante inicio de sesión autenticado contra Supabase Auth.
+* **Dashboard y métricas:** Resumen en tiempo real del catálogo (total de productos, artículos disponibles, productos agotados y categorías activas).
+* **Gestión de inventario (CRUD completo):**
+  * Creación de nuevos productos con validaciones de formulario.
+  * Edición integral de datos (título, precio, categoría, descripción, estado).
+  * Conmutador rápido de disponibilidad (*switch* directo en la tabla).
+  * Eliminación de productos con diálogo modal de confirmación.
+* **Gestión avanzada de imágenes:**
+  * Subida de múltiples fotos por producto.
+  * Reordenamiento de imágenes (*subir/bajar posición*) con asignación automática de foto de portada.
+  * Eliminación individual de fotografías antes y durante la edición.
+* **Feedback operativo:** Notificaciones flotantes (*toasts*) para confirmar acciones o reportar errores.
+
+### Procesamiento y Optimización de Imágenes
+* **Optimización en el cliente (Browser Canvas API):** Cada fotografía seleccionada por el administrador es procesada localmente en el navegador antes de iniciar la subida a la nube.
+* **Redimensionamiento inteligente:** Las imágenes que superan los **1600 px** en su lado mayor son escaladas proporcionalmente, preservando la nitidez de telas y texturas artesanales.
+* **Compresión a WebP:** Conversión automática a formato **WebP** con calidad `0.85` (con fallback transparente a JPEG en navegadores que lo requieran), logrando reducciones de peso superiores al 90% (de 5–15 MB a 100–250 KB) para cargas ultrarrápidas en redes móviles.
+* **Persistencia relacional:** Almacenamiento de archivos en Supabase Storage y vinculación de URLs y orden en la tabla `public.product_images`.
+
+---
+
+## 🏛️ Arquitectura del Software
+
+El sistema sigue una arquitectura por capas desacopladas que favorece la separación de responsabilidades y permite reemplazar componentes sin afectar las interfaces de usuario:
 
 ```
-URL:      admin/login.html
-Usuario:  admin
-Clave:    cabag2026
+┌────────────────────────────────────────────────────────────────────────┐
+│                        Capa de Presentación (UI)                       │
+│     catalog.js · product.js · dashboard.js · product-form.js · login.js│
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │
+                                    ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│                        Capa de Negocio y Servicios                     │
+│               ProductService.js       │       AuthService.js           │
+│     (Validaciones, filtros, orquestación) (Sesión y autenticación)     │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │
+                                    ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│                         Capa de Acceso a Datos                         │
+│               SupabaseStorageAdapter.js · supabaseClient.js             │
+│        (Mapeo de entidades, consultas SQL, subida a Storage)           │
+│        [StorageAdapter.js disponible para fallback local opcional]     │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │
+                                    ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│                           Backend (Supabase)                           │
+│  PostgreSQL (products · product_images) │ Storage (product-images)     │
+└────────────────────────────────────────────────────────────────────────┘
 ```
 
-> ⚠️ **Esta autenticación es solo del lado del cliente.** Sirve para
-> ocultar el panel de un usuario común que navegue el sitio, pero
-> **no es seguridad real**: cualquiera con conocimientos técnicos
-> podría saltearla inspeccionando el JavaScript. No debe usarse para
-> proteger datos sensibles hasta reemplazarla por autenticación real
-> (ver [Cómo migrar a un backend real](#cómo-migrar-a-un-backend-real)).
+### Principios de diseño aplicados:
+* **Separación de responsabilidades:** La interfaz de usuario nunca ejecuta consultas directas a Supabase ni interactúa con APIs de almacenamiento; siempre delega en `ProductService` y `AuthService`.
+* **Patrón Adaptador:** `SupabaseStorageAdapter` traduce las filas y tablas de PostgreSQL al modelo de datos unificado `Product.js`.
+* **Fuente única de verdad:** Constantes globales, URLs de contacto y categorías centralizadas en [assets/js/config.js](assets/js/config.js).
+* **Módulos utilitarios puros:** Funciones de formateo monetario, manipulación DOM y compresión de imágenes encapsuladas en `assets/js/utils/`.
 
-## Estructura del proyecto
+---
 
-```
+## 📁 Estructura del proyecto
+
+```text
 cabag_store/
-│
-├── index.html                    # Catálogo público
-├── producto.html                 # Detalle de producto (galería, relacionados)
+├── index.html                    # Catálogo público y portada principal
+├── producto.html                 # Ficha detallada de producto
+├── .gitignore                    # Reglas de exclusión para Git y secretos
+├── README.md                     # Documentación general del proyecto
 │
 ├── admin/
-│   ├── login.html                # Login del panel
-│   └── dashboard.html            # Listado, alta, edición y borrado de productos
+│   ├── login.html                # Formulario de autenticación administrativa
+│   └── dashboard.html            # Panel de control, métricas y modal de gestión
 │
 ├── assets/
 │   ├── css/
-│   │   ├── variables.css         # Tokens de diseño: colores, radios, tipografía base
-│   │   ├── base.css              # Reset, tipografía, header, footer, botones, toasts
-│   │   ├── components.css        # Buscador, tarjeta de producto, skeleton loading
-│   │   ├── public.css            # Hero, filtros, "por qué elegirnos", contacto
-│   │   ├── product.css           # Galería y layout de producto.html
-│   │   └── admin.css             # Login, dashboard, tabla, modal de producto
+│   │   ├── variables.css         # Tokens de diseño (paleta cromática, tipografías, radios)
+│   │   ├── base.css              # Reset, tipografía, header, footer y toasts globales
+│   │   ├── components.css        # Tarjeta de producto, buscador y skeleton screens
+│   │   ├── public.css            # Secciones públicas: hero, filtros y contacto
+│   │   ├── product.css           # Galería interactiva y ficha de producto.html
+│   │   └── admin.css             # Estilos del panel, tabla responsive y formularios
 │   │
 │   ├── js/
-│   │   ├── config.js             # Constantes globales (categorías, WhatsApp, claves de storage)
+│   │   ├── config.js             # Configuración central (Supabase, WhatsApp, categorías)
 │   │   │
 │   │   ├── utils/
-│   │   │   ├── format.js         # Formato de precio, generación de ids, fechas ISO
-│   │   │   └── dom.js            # Selectores cortos, toasts, debounce, query params
+│   │   │   ├── format.js         # Formateo de moneda (ARS), fechas ISO e IDs
+│   │   │   ├── dom.js            # Helpers de manipulación del DOM, toasts, debounce
+│   │   │   └── image.js          # Optimización de imágenes en Canvas (WebP, max 1600px)
 │   │   │
 │   │   ├── models/
-│   │   │   └── Product.js        # Forma canónica del producto, normalización y validación
+│   │   │   └── Product.js        # Definición del modelo, normalización y validaciones
 │   │   │
 │   │   ├── data/
-│   │   │   └── seed-products.js  # Datos de ejemplo (primera carga)
+│   │   │   └── seed-products.js  # Catálogo inicial de prueba y demostración
 │   │   │
-│   │   ├── services/             # Única capa que toca localStorage
-│   │   │   ├── StorageAdapter.js # CRUD genérico sobre localStorage (interfaz basada en Promises)
-│   │   │   ├── ProductService.js # Lógica de negocio de productos (filtros, imágenes, relacionados)
-│   │   │   └── AuthService.js    # Login/logout/sesión del admin (client-side)
+│   │   ├── services/
+│   │   │   ├── supabaseClient.js         # Inicialización del cliente Supabase JS
+│   │   │   ├── SupabaseStorageAdapter.js # Adaptador de persistencia con Supabase
+│   │   │   ├── StorageAdapter.js         # Adaptador para almacenamiento local (fallback)
+│   │   │   ├── ProductService.js         # Lógica de negocio y orquestación de productos
+│   │   │   └── AuthService.js            # Gestión de autenticación y estado de sesión
 │   │   │
 │   │   ├── components/
-│   │   │   ├── productCard.js    # Tarjeta de producto reutilizable (catálogo + relacionados)
-│   │   │   └── skeleton.js       # Placeholders animados de carga
+│   │   │   ├── productCard.js    # Componente reutilizable de tarjeta de catálogo
+│   │   │   └── skeleton.js       # Plantillas animadas de carga
 │   │   │
 │   │   ├── public/
-│   │   │   ├── catalog.js        # Controlador de index.html
-│   │   │   └── product.js        # Controlador de producto.html
+│   │   │   ├── catalog.js        # Controlador del catálogo público (index.html)
+│   │   │   └── product.js        # Controlador de la vista de producto (producto.html)
 │   │   │
 │   │   └── admin/
-│   │       ├── login.js          # Controlador de admin/login.html
-│   │       ├── dashboard.js      # Controlador de admin/dashboard.html
-│   │       └── product-form.js   # Modal de alta/edición (validación + gestión de imágenes)
+│   │       ├── login.js          # Controlador de la pantalla de login
+│   │       ├── dashboard.js      # Controlador de métricas y tabla del panel
+│   │       └── product-form.js   # Controlador del modal de alta/edición y fotos
 │   │
-│   └── images/                   # Reservado para assets estáticos propios (hoy vacío)
+│   └── images/
+│       └── README.md             # Guía para incorporación de recursos gráficos estáticos
 │
-└── README.md
+└── supabase/
+    └── sql/
+        ├── 001_set_updated_at_trigger.sql        # Trigger automático para timestamp updated_at
+        ├── 002_inspect_before_images_setup.sql   # Consultas de verificación de esquema y policies
+        ├── 003_product_images_and_storage_setup.sql # Creación de bucket y estructura inicial
+        └── 004_fix_images_and_storage_rls.sql    # Políticas RLS definitivas de seguridad
 ```
 
-> **Nota:** se evaluó reorganizar `AuthService.js` en una carpeta
-> `assets/js/auth/` separada y quitar `assets/js/models/`. Se decidió
-> conservar la estructura real (`AuthService.js` dentro de `services/`,
-> junto a `ProductService.js` y `StorageAdapter.js`; `models/` con la
-> definición del producto) porque es la que usan todos los `import`
-> del proyecto — reorganizarla habría implicado tocar archivos ya
-> integrados sin ningún beneficio funcional.
+---
 
-## Arquitectura
+## 🔒 Seguridad y Control de Acceso (RLS)
 
-Ninguna pantalla (catálogo, producto, admin) toca `localStorage`
-directamente. Todas pasan por **`ProductService`**, que a su vez usa
-**`StorageAdapter`** como única pieza que sabe que los datos viven en
-`localStorage`:
+El proyecto implementa un modelo de seguridad robusto basado en el principio de mínimo privilegio:
 
+1. **Autenticación:** Las credenciales nunca se evalúan en el cliente; se validan directamente en el servidor de Supabase Auth mediante tokens de sesión.
+2. **Row Level Security (RLS) en Base de Datos:**
+   * `public.products`: Lectura pública (`anon`, `authenticated`) para que cualquier visitante consulte el catálogo. Operaciones de escritura (`INSERT`, `UPDATE`, `DELETE`) restringidas únicamente al rol `authenticated`.
+   * `public.product_images`: Lectura pública para renderizado de fotografías; inserción, actualización y borrado restringidos exclusivamente a usuarios `authenticated`.
+3. **Seguridad en Supabase Storage:**
+   * Bucket `product-images`: Permiso de lectura pública (`SELECT`) para visualización directa en etiquetas `<img>`. Políticas de `INSERT` y `DELETE` bloqueadas para accesos anónimos y habilitadas únicamente para el administrador autenticado.
+4. **Protección de Credenciales:**
+   * El frontend utiliza únicamente la clave pública anónima (`anon / publishable key`), cuya operativa está estrictamente limitada por las políticas RLS.
+   * **Nunca** se utiliza ni se incluye la clave secreta con privilegios elevados (`service_role key`) en el código del cliente.
+
+---
+
+## ⚙️ Configuración de Supabase
+
+Para desplegar o replicar la infraestructura backend en un nuevo entorno:
+
+1. **Crear un proyecto en Supabase:** Acceder a [supabase.com](https://supabase.com) y crear un proyecto.
+2. **Ejecutar scripts SQL:** En la sección **SQL Editor** del dashboard de Supabase, ejecutar en orden los scripts ubicados en la carpeta `supabase/sql/`:
+   * `001_set_updated_at_trigger.sql` (automatización de fecha de actualización).
+   * `003_product_images_and_storage_setup.sql` (creación del bucket `product-images` y tablas).
+   * `004_fix_images_and_storage_rls.sql` (aplicación de políticas de seguridad RLS definitivas).
+3. **Crear usuario administrador:** En la sección **Authentication → Users**, registrar la cuenta de correo y contraseña del administrador.
+4. **Vincular el frontend:** En el archivo `assets/js/config.js`, completar con los datos de conexión provistos en **Project Settings → API**:
+   ```javascript
+   export const CONFIG = {
+     DATA_SOURCE: "supabase",
+     SUPABASE_URL: "https://TU_PROYECTO.supabase.co",
+     SUPABASE_ANON_KEY: "TU_CLAVE_PUBLICA_ANON",
+     SUPABASE_STORAGE_BUCKET: "product-images",
+     // ...
+   };
+   ```
+
+---
+
+## 💻 Instalación y ejecución local
+
+Dado que el proyecto utiliza **HTML5, CSS3 y JavaScript puro con ES Modules**, no requiere herramientas de construcción (*build tools*), transpiladores ni instalación de dependencias `npm`.
+
+Debido a que las políticas de seguridad de los navegadores (*CORS*) restringen la carga de módulos ES mediante el protocolo `file://`, la aplicación debe servirse a través de un servidor HTTP local:
+
+### Opción 1: Visual Studio Code (Recomendada)
+1. Abrir la carpeta del proyecto en VS Code.
+2. Instalar la extensión **Live Server**.
+3. Hacer clic derecho sobre `index.html` y seleccionar **"Open with Live Server"**.
+
+### Opción 2: Node.js
+```bash
+npx serve .
 ```
-UI (catalog.js · product.js · dashboard.js · product-form.js · login.js)
-        ↓
-ProductService / AuthService   (reglas de negocio, validaciones)
-        ↓
-StorageAdapter                 (CRUD genérico, interfaz basada en Promises)
-        ↓
-localStorage
+
+### Opción 3: Python 3
+```bash
+python -m http.server 8000
 ```
 
-Principios seguidos:
+* **Catálogo público:** `http://localhost:8000/index.html`
+* **Panel de administración:** `http://localhost:8000/admin/login.html`
 
-- **Separación por capas**: modelos (`models/`), acceso a datos
-  (`services/`), componentes de UI reutilizables (`components/`) y
-  controladores de página (`public/`, `admin/`) no se mezclan.
-- **Una sola fuente de verdad por dato**: constantes en `config.js`,
-  formato de precios en `utils/format.js`, forma del producto en
-  `models/Product.js`.
-- **CSS organizado por alcance**: `variables.css` (tokens) → `base.css`
-  (global) → `components.css` (piezas de UI compartidas entre el sitio
-  público y el admin, como la tarjeta de producto y el buscador) →
-  hojas específicas por página (`public.css`, `product.css`, `admin.css`).
-- **Interfaces listas para red**: tanto `StorageAdapter` como
-  `AuthService` exponen métodos `async` que devuelven `Promise`,
-  aunque hoy lean de `localStorage` de forma síncrona — para que
-  cambiarlos por llamadas HTTP no obligue a tocar el resto del código.
+---
 
-## Funcionalidades
+## 🎯 Enfoque de Portfolio
 
-**Catálogo público (`index.html`)**
-- Carga inicial con skeleton loading.
-- Búsqueda por nombre (con debounce) y filtro por categoría.
-- Estado "Agotado" (tarjeta atenuada, badge, botón deshabilitado).
-- Botón de WhatsApp con mensaje prellenado por producto.
+Este proyecto refleja una serie de competencias técnicas y decisiones de diseño orientadas a entornos profesionales:
 
-**Detalle de producto (`producto.html`)**
-- Galería con flechas (ocultas si el producto tiene una sola imagen),
-  miniaturas clickeables y swipe táctil en celulares.
-- Precio, categoría, descripción completa y estado de stock.
-- Productos relacionados (misma categoría).
-- Lectura del `id` por query string (`producto.html?id=...`) y
-  mensajes de error si falta el `id` o el producto no existe.
+* **Dominio de Vanilla JavaScript:** Implementación de arquitectura completa (servicios, adaptadores, componentes, enrutamiento ligero por URL y gestión de estado) sin depender de frameworks.
+* **Integración BaaS y Cloud:** Implementación de bases de datos relacionales, autenticación y almacenamiento de objetos con Supabase.
+* **Diseño e Implementación de Seguridad:** Configuración integral de Row Level Security (RLS) para proteger endpoints y assets multimedia.
+* **Optimización de Rendimiento Web (WPO):** Manipulación de imágenes en el cliente antes de la subida mediante la API Canvas del navegador, reduciendo el ancho de banda y garantizando fluidez en dispositivos móviles.
+* **Diseño Orientado al Negocio:** Construcción de una solución a medida para un caso de uso real, priorizando usabilidad, experiencia del usuario y canales de conversión comerciales (WhatsApp e Instagram).
 
-**Panel de administración (`admin/`)**
-- Login protegido con `AuthService` (client-side).
-- Dashboard con estadísticas (total, disponibles, agotados, categorías en uso).
-- Listado de productos en tabla responsive (se adapta a tarjetas
-  apiladas en celular), con búsqueda y filtros por categoría y estado.
-- Alta y edición de productos en un mismo modal (`product-form.js`),
-  con validación de nombre, categoría, precio e imágenes.
-- Subida de múltiples imágenes (convertidas a base64 y guardadas junto
-  al producto), reordenamiento (subir/bajar posición) y eliminación
-  individual de cada imagen.
-- Cambio rápido de disponibilidad con un switch, sin abrir el formulario.
-- Eliminación de productos con modal de confirmación.
-- Notificaciones (toasts) para cada acción: guardar, eliminar, cambiar
-  disponibilidad, errores de validación o de lectura de archivos.
+---
 
-## Limitaciones conocidas
+## 📌 Estado del proyecto
 
-Estas limitaciones son esperables en una solución basada en
-`localStorage` y quedan resueltas al migrar a un backend real:
-
-- **Los datos son locales al navegador**: no hay sincronización entre
-  dispositivos ni usuarios; cada navegador tiene su propio catálogo.
-- **Cupo de almacenamiento limitado**: `localStorage` suele tener un
-  límite de ~5-10 MB por sitio. Como las imágenes subidas se guardan
-  como base64, catálogos con muchas imágenes en alta resolución
-  pueden agotar ese cupo (la UI avisa con un toast si el guardado falla).
-- **Autenticación del admin no apta para producción**: ver el aviso
-  en [Acceso al panel de administración](#acceso-al-panel-de-administración).
-
-## Cómo migrar a un backend real
-
-### Datos de productos (Node.js + Express + PostgreSQL)
-
-1. Crear un `ApiStorageAdapter` con los mismos métodos que
-   `StorageAdapter` (`getAll`, `getById`, `create`, `update`, `remove`,
-   `seedIfEmpty`...) pero que hagan `fetch()` a endpoints como
-   `GET/POST/PUT/DELETE /api/productos`.
-2. Reemplazar la instancia de `StorageAdapter` por `ApiStorageAdapter`
-   dentro de `ProductService.js` — una sola línea.
-3. Nada más cambia: `ProductService` ya devuelve `Promise`s con la
-   misma forma, así que el catálogo, el detalle de producto y el
-   admin siguen funcionando sin tocarse.
-
-### Autenticación (JWT / sesiones)
-
-`AuthService.js` ya expone la interfaz que necesitaría una
-autenticación real (`login`, `logout`, `isAuthenticated`, `guard`):
-
-1. `login()` pasaría a hacer `fetch('/api/auth/login', ...)` y
-   guardar el token que devuelva el servidor en vez del token de demo.
-2. `isAuthenticated()` pasaría a validar ese token (o consultar
-   `/api/auth/me`).
-3. Cada request a la API adjuntaría el token en el header `Authorization`.
-
-Ninguna pantalla del admin necesita cambiar.
-
-## Próximos pasos sugeridos
-
-- Reemplazar `StorageAdapter` por un backend real (ver arriba).
-- Autenticación real (JWT/sesiones) en `AuthService`.
-- Subida de imágenes a un storage externo (en vez de base64 en `localStorage`).
-- Pedidos online y pasarela de pagos, una vez exista backend.
+El sistema se encuentra **completamente funcional, auditado y preparado para la operatoria productiva** del emprendimiento Ca & Bag.

@@ -10,6 +10,7 @@ import { ProductService } from "../services/ProductService.js";
 import { CONFIG } from "../config.js";
 import { generateId } from "../utils/format.js";
 import { qs, toast } from "../utils/dom.js";
+import { optimizeImageFile } from "../utils/image.js";
 
 const ICON_UP = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 19V5M5 12l7-7 7 7"/></svg>`;
 const ICON_DOWN = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12l7 7 7-7"/></svg>`;
@@ -116,34 +117,25 @@ export function initProductForm({ onSaved }) {
     renderImages();
   }
 
-  function readFileAsDataUrl(file) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = () => reject(reader.error);
-      reader.readAsDataURL(file);
-    });
-  }
-
   async function handleFileSelection(fileList) {
     const files = Array.from(fileList).filter((f) => f.type.startsWith("image/"));
     if (files.length === 0) return;
 
-    let loaded;
-    try {
-      loaded = await Promise.all(files.map(readFileAsDataUrl));
-    } catch (err) {
-      // Logueamos el error real: antes se descartaba y el toast genérico
-      // no permitía saber si la falla era de lectura, de memoria, etc.
-      console.error("[product-form] Error al leer un archivo de imagen:", err);
-      toast("No pudimos leer una de las imágenes seleccionadas.", { type: "error" });
-      return;
+    for (const file of files) {
+      try {
+        const optimized = await optimizeImageFile(file);
+        images.push({
+          id: generateId("img"),
+          url: optimized.dataUrl,
+          order: images.length,
+          file: optimized.file,
+        });
+      } catch (err) {
+        console.error("[product-form] Error al optimizar imagen:", err);
+        toast(`No se pudo procesar la imagen "${file.name}".`, { type: "error" });
+      }
     }
 
-    // `file` se guarda para subir el archivo real a Storage recién al
-    // guardar (ver resolveImagesForSave en ProductService). Con
-    // localStorage se ignora: la data: URL en `url` ya es la definitiva.
-    loaded.forEach((url, i) => images.push({ id: generateId("img"), url, order: images.length, file: files[i] }));
     renderImages();
   }
 

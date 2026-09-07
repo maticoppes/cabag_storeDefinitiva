@@ -8,7 +8,7 @@ export const CONFIG = {
   WHATSAPP_NUMBER: "+543447467921",
   INSTAGRAM_URL: "https://www.instagram.com/cabag_store/",
   STORAGE_PREFIX: "cabag_store",
-  CATEGORIES: ["Bolsos", "Materas", "Cartucheras", "Neceseres", "Accesorios"],
+  CATEGORIES: ["Bolsos", "Mochilas", "Materas", "Cartucheras", "Neceseres", "Accesorios"],
   ADMIN_SESSION_MINUTES: 60,
 
   // ---- Migración a Supabase (en curso, ver services/SupabaseStorageAdapter.js) ----
