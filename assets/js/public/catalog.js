@@ -41,6 +41,76 @@ async function render() {
   noResults.hidden = products.length !== 0;
 }
 
+function initNavigationScrollspy() {
+  const navLinks = qsa(".main-nav a[href^='#']");
+  if (!navLinks.length) return;
+
+  const sectionMap = new Map();
+  navLinks.forEach((link) => {
+    const hash = link.getAttribute("href");
+    if (!hash || hash === "#") return;
+    try {
+      const section = qs(hash);
+      if (section) {
+        sectionMap.set(section, link);
+      }
+    } catch {
+      // Ignore any non-selector href
+    }
+  });
+
+  if (sectionMap.size === 0) return;
+
+  function setActiveLink(activeLink) {
+    navLinks.forEach((link) => link.classList.remove("is-active", "active"));
+    if (activeLink) {
+      activeLink.classList.add("is-active", "active");
+    }
+  }
+
+  // Click handler for instant response
+  navLinks.forEach((link) => {
+    link.addEventListener("click", () => {
+      setActiveLink(link);
+    });
+  });
+
+  // IntersectionObserver for scrolling
+  const observer = new IntersectionObserver(
+    (entries) => {
+      const visibleEntries = entries.filter((e) => e.isIntersecting);
+      if (visibleEntries.length > 0) {
+        // Find section closest to top of viewport
+        const bestEntry = visibleEntries.reduce((prev, curr) => {
+          return Math.abs(curr.boundingClientRect.top) < Math.abs(prev.boundingClientRect.top) ? curr : prev;
+        });
+        const targetLink = sectionMap.get(bestEntry.target);
+        if (targetLink) {
+          setActiveLink(targetLink);
+        }
+      }
+    },
+    {
+      root: null,
+      rootMargin: "-20% 0px -55% 0px",
+      threshold: [0, 0.25, 0.5]
+    }
+  );
+
+  sectionMap.forEach((_, section) => {
+    observer.observe(section);
+  });
+
+  // Check top position or hash on page load
+  const currentHash = window.location.hash;
+  const hashLink = navLinks.find((l) => l.getAttribute("href") === currentHash);
+  if (hashLink) {
+    setActiveLink(hashLink);
+  } else {
+    setActiveLink(navLinks[0]);
+  }
+}
+
 function initFilters() {
   if (filtersContainer) {
     const categoryButtons = CONFIG.CATEGORIES.map(
@@ -65,6 +135,7 @@ function initSearch() {
 }
 
 async function init() {
+  initNavigationScrollspy();
   initWhatsappLinks();
   initInstagramLinks();
   grid.innerHTML = skeletonCardsHtml(8);

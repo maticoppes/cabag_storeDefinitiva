@@ -155,7 +155,7 @@ button{ font-family: inherit; cursor:pointer; border:none; background:none; }
   width:0; height:2px; background: var(--terracotta);
   transition: width .15s ease;
 }
-.main-nav a:hover::after, .main-nav a.is-active::after{ width:100%; }
+.main-nav a:hover::after, .main-nav a.is-active::after, .main-nav a.active::after{ width:100%; }
 
 /* ===== FOOTER ===== */
 .site-footer{
